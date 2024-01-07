@@ -3,3 +3,5 @@ A Programm for predicting bitcoin. In this programm if you start it you get a GU
 
 This python programm is build for bitcoin this may not be as accurate as the bitcoin data set because it is build for the bitcoin.
 
+The programm can take a long time to start.
+
