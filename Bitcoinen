@@ -11,16 +11,13 @@ import datetime
 import time
 import matplotlib.pyplot as plt
 
-# Pad naar je dataset
 file_path = 'File to your bitcoin data'
 
-# Lees de dataset in
 btc_data = pd.read_csv(file_path, parse_dates=['Date'], index_col='Date')
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled_data = scaler.fit_transform(btc_data['Close'].values.reshape(-1, 1))
 scaled_data = scaled_data.flatten()
 
-# Functie om de dataset te herschikken voor LSTM
 def create_dataset(dataset, time_steps=60):
     X, Y = [], []
     for i in range(len(dataset) - time_steps):
@@ -28,7 +25,6 @@ def create_dataset(dataset, time_steps=60):
         Y.append(dataset[i+time_steps])
     return np.array(X), np.array(Y)
 
-# Functie om het model te trainen
 def train_model(epochs, model_name, update_text, update_time):
     model = Sequential()
     model.add(LSTM(units=50, return_sequences=True, input_shape=(60, 1)))
@@ -63,7 +59,6 @@ def train_model(epochs, model_name, update_text, update_time):
     update_text(f"Training complete. Model '{model_name}' has been saved.\n")
     update_time("Training complete.")
 
-# Trainingsinterface
 def train_interface():
     train_window = tk.Toplevel()
     train_window.title("Train Model")
@@ -91,7 +86,6 @@ def train_interface():
 
     tk.Button(train_window, text="Start Training", command=start_training).grid(row=3, column=0, columnspan=2, padx=10, pady=10)
 
-# Functie om de voorspellingen te visualiseren
 def visualize_predictions():
     selected_model = model_combobox.get()
     days = int(days_entry.get())
@@ -119,7 +113,6 @@ def visualize_predictions():
         plt.tight_layout()
         plt.show()
 
-# Voorspellingsinterface
 def prediction_interface():
     global model_combobox, days_entry
     prediction_window = tk.Toplevel()
@@ -157,7 +150,6 @@ def prediction_interface():
     tk.Button(prediction_window, text="Show Predictions", command=make_prediction).grid(row=2, column=0, padx=10, pady=10)
     tk.Button(prediction_window, text="Visualize Predictions", command=visualize_predictions).grid(row=2, column=1, padx=10, pady=10)
 
-# Hoofdinterface
 root = tk.Tk()
 root.title("Bitcoin Price Prediction")
 
